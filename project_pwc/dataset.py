@@ -3,7 +3,7 @@ import typer
 from loguru import logger
 from tqdm import tqdm
 
-from project_pwc.config import RAW_DATA_DIR, PROCESSED_DATA_DIR
+from project_pwc.config import RAW_DATA_DIR, INTERIM_DATA_DIR
 
 app = typer.Typer()
 
@@ -86,7 +86,7 @@ def main(output_filename: str = "dataset_cleaned.csv"):
     df = fill_missing_values(df)
 
     # 4. Guardar
-    output_path = PROCESSED_DATA_DIR / output_filename
+    output_path = INTERIM_DATA_DIR / output_filename
     df.to_csv(output_path, index=False)
     logger.success(f"Dataset cleaned and saved to {output_path}")
 

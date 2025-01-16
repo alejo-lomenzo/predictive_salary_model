@@ -23,6 +23,7 @@ def merge_data(salary_df, people_df, desc_df) -> pd.DataFrame:
     return df_merged
 
 def fill_missing_values(df: pd.DataFrame) -> pd.DataFrame:
+    
     before = len(df)
     df = df.dropna(subset=["Salary"])
     after = len(df)
@@ -49,9 +50,6 @@ def fill_missing_values(df: pd.DataFrame) -> pd.DataFrame:
 def main(output_filename: str = "dataset_cleaned.csv"):
 
     logger.info("Starting data cleaning and merging pipeline...")
-
-    for i in tqdm(range(2), total=2):
-        pass
 
     salary_df, people_df, desc_df = load_dataframes()
 

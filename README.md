@@ -21,7 +21,7 @@ This repository contains the **end-to-end pipeline** for **predicting salaries**
 
 ---
 
-## 1. Project Structure <a id="project-structure"></a>
+<details> <summary><strong>1. Project Structure</strong></summary>
 
 ├── LICENSE
 ├── Makefile
@@ -70,7 +70,7 @@ This repository contains the **end-to-end pipeline** for **predicting salaries**
     │   └── app.py                     <- FastAPI endpoint
     └── ui
         └── app.py                     <- Streamlit UI
-
+</details>
 
 ---
 

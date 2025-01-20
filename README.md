@@ -21,7 +21,7 @@ This repository contains the **end-to-end pipeline** for **predicting salaries**
 
 ---
 
-<details> <summary><strong>1. Project Structure</strong></summary>
+## 1. Project Structure <a id="project-structure"></a>
 
 ├── LICENSE
 ├── Makefile
@@ -46,6 +46,7 @@ This repository contains the **end-to-end pipeline** for **predicting salaries**
 │   ├── 6.0-advanced-validation.ipynb
 │   └── 7.0-ensemble.ipynb
 │
+
 ├── pyproject.toml                     <- Project config (formatters, linters)
 ├── references                         <- Manuals, data dictionaries, etc.
 ├── reports                            <- HTML/PDF analyses
@@ -70,7 +71,8 @@ This repository contains the **end-to-end pipeline** for **predicting salaries**
     │   └── app.py                     <- FastAPI endpoint
     └── ui
         └── app.py                     <- Streamlit UI
-</details>
+
+
 
 ---
 

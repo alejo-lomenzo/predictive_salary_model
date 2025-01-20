@@ -1,7 +1,6 @@
 import pandas as pd
 import typer
 from loguru import logger
-from tqdm import tqdm
 
 from project_pwc.config import RAW_DATA_DIR, INTERIM_DATA_DIR
 

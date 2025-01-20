@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
+from typing import Any
 
 app = FastAPI()
 
@@ -14,7 +15,7 @@ class Features(BaseModel):
     experience_level_ordinal: int
 
 @app.post("/predict")
-def predict_salary(data: Features):
+def predict_salary(data: Any) -> dict:
     X_input = [[
         data.years_experience,
         data.gender_female,

@@ -3,7 +3,7 @@ import pandas as pd
 from project_pwc.features import main as features_main
 from project_pwc.config import PROCESSED_DATA_DIR
 
-def test_features_no_log():
+def test_features_no_log() -> None:
 
     features_main(
         input_file="dataset_cleaned.csv", 
@@ -17,7 +17,7 @@ def test_features_no_log():
     df_test = pd.read_csv(output_path)
     assert "Salary_log" not in df_test.columns, "No deberia existir Salary_log si use_log_salary=False"
 
-def test_features_with_log():
+def test_features_with_log() -> None:
 
     features_main(
         input_file="dataset_cleaned.csv",

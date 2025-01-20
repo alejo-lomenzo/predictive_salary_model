@@ -10,8 +10,8 @@ from loguru import logger
 from project_pwc.config import PROCESSED_DATA_DIR
 
 def train_and_save_model(
-    input_csv= (PROCESSED_DATA_DIR / 'dataset_features.csv'),
-    output_model="models/rf_salary.joblib"
+    input_csv: pd.DataFrame = (PROCESSED_DATA_DIR / 'dataset_features.csv'),
+    output_model: str ="models/rf_salary.joblib"
 ):
 
     df = pd.read_csv(input_csv)

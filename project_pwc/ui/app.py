@@ -2,7 +2,7 @@ import numpy as np
 import joblib
 import streamlit as st
 
-def run_streamlit_app():
+def run_streamlit_app() -> None:
 
     st.title("Salary Prediction (Without Log)")
 

@@ -4,7 +4,7 @@ from project_pwc.modeling.train_and_save_best_model import train_and_save_model
 from project_pwc.config import PROCESSED_DATA_DIR
 import joblib
 
-def test_train_and_save_model():
+def test_train_and_save_model() -> None:
 
     model_out = "models/test_rf_salary.joblib"
     train_and_save_model(

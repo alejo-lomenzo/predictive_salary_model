@@ -1,12 +1,13 @@
 import pandas as pd
 import typer
 from loguru import logger
+from typing import Tuple
 
 from project_pwc.config import RAW_DATA_DIR, INTERIM_DATA_DIR
 
 app = typer.Typer()
 
-def load_dataframes():
+def load_dataframes() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
     salary_df = pd.read_csv(RAW_DATA_DIR / "salary.csv")
     people_df = pd.read_csv(RAW_DATA_DIR / "people.csv")
@@ -14,7 +15,11 @@ def load_dataframes():
 
     return salary_df, people_df, desc_df
 
-def merge_data(salary_df, people_df, desc_df) -> pd.DataFrame:
+def merge_data(
+    salary_df: pd.DataFrame, 
+    people_df: pd.DataFrame, 
+    desc_df: pd.DataFrame
+) -> pd.DataFrame:
 
     df_merged = people_df.merge(salary_df, on="id", how="left")
     df_merged = df_merged.merge(desc_df, on="id", how="left")
@@ -46,7 +51,7 @@ def fill_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 @app.command()
-def main(output_filename: str = "dataset_cleaned.csv"):
+def main(output_filename: str = "dataset_cleaned.csv") -> None:
 
     logger.info("Starting data cleaning and merging pipeline...")
 

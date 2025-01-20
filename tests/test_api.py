@@ -4,7 +4,7 @@ from project_pwc.api.app import app
 
 client = TestClient(app)
 
-def test_predict_salary():
+def test_predict_salary()-> None:
     payload = {
         "years_experience": 5.0,
         "gender_female": 1,

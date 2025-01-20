@@ -12,7 +12,7 @@ def main(
     input_file: str = "dataset_cleaned.csv",
     output_file: str = "dataset_features.csv",
     use_log_salary: bool = True
-):
+) -> None:
 
     logger.info("Iniciando pipeline")
 

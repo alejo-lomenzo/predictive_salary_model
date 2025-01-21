@@ -91,8 +91,9 @@ This repository contains the **end-to-end pipeline** for **predicting salaries**
 - **Save** the result as `dataset_cleaned.csv` in `data/interim/`.
 
 **Usage**:
+```bash
 python -m project_pwc.dataset
-
+```
 Output: data/interim/dataset_cleaned.csv
 
 In Notebooks:
@@ -176,7 +177,9 @@ Exposes POST /predict (FastAPI) with a Pydantic schema:
 Returns {"predicted_salary": <float>}.
 
 **Usage**:
+```bash
 uvicorn project_pwc.api.app:app --host 0.0.0.0 --port 8000
+```
 
 Send test requests via Postman or curl:
 curl -X POST http://127.0.0.1:8000/predict \
@@ -190,7 +193,9 @@ Years of Experience, Gender, Education Level, Experience Level Ordinal.
 Runs model.predict(...) and displays the estimated salary.
 
 **Usage**:
+```bash
 streamlit run project_pwc/ui/app.py
+```
 Opens at http://localhost:8501.
 
 ## 7. Testing with Pytest <a id="testing-pytest"></a>

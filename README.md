@@ -100,39 +100,44 @@ In Notebooks:
 2.0-eda-advanced-exploration.ipynb goes deeper (correlation, outliers, distributions).
 
 ## 3. Advanced EDA <a id="advanced-eda"></a>
+
 1.0-eda-initial-exploration
 Loads raw data, merges them to view potential missing columns and general shape.
+
 2.0-eda-advanced-exploration
 Correlation Heatmap: Age ~ YearsOfExperience (~0.98), both ~0.92–0.93 to Salary → potential multicollinearity for linear models.
+
 Boxplots & Histograms:
 Salary shows a strong right-skew (long tail up to 200k+).
 Age is roughly normal (23–53).
 Experience peaks at ~0–5 and ~15 years.
+
 Categorical vs. Salary:
 Education Level (Bachelor’s < Master’s < PhD) correlates with higher salaries.
 Gender indicates differences in salary distribution.
 Scatter (Age vs. Experience vs. Salary) → outliers, strong collinearity, possible log transformation for Salary in linear models.
 
 ## 4. Model Training <a id="model-training"></a>
-3.0-model-training
-Features:
 
+3.0-model-training:
+
+Features:
 Optionally create df["Salary_log"].
 One-hot encode Gender.
 Ordinal-encode Education.
 Bin YearsOfExperience → experience_level_ordinal.
-Models:
 
+Models:
 DummyRegressor (baseline): MAE ~$40k, R² ~ -0.00
 LinearRegression: ~$10.8k MAE, ~0.91 R² with direct Salary
 RandomForestRegressor: ~$10k MAE, ~0.88–0.91 R²
 If using Salary_log, the model can reach ~0.92 in log-scale R² but ~0.88 when reverting to real scale.
-Conclusion:
 
+Conclusion:
 RandomForest is best among these basic models.
 The difference between direct Salary vs. log-scale is not large in final dollar MAE.
 
-## 5. Advanced Validation and Ensemble <a id="advanced-validation-and-ensemble"></a
+## 5. Advanced Validation and Ensemble <a id="advanced-validation-and-ensemble"></a>
 4.0-explain-linear-assumptions
 Checks linear model assumptions via Residual vs. Predicted and Q-Q Plot.
 Residuals are fairly normal except for heavier tails (salary outliers).
@@ -156,8 +161,10 @@ A VotingRegressor combining RandomForest, XGBRegressor, and LinearRegression.
 Results: MAE ~$10.4k, R²=0.90, very similar to a well-tuned RandomForest alone.
 
 ## 6. API and UI Deployment <a id="api-and-ui-deployment"></a>
+
 API: project_pwc/api/app.py
 Loads models/rf_salary.joblib.
+
 Exposes POST /predict (FastAPI) with a Pydantic schema:
 {
   "years_experience": 5,
@@ -168,7 +175,7 @@ Exposes POST /predict (FastAPI) with a Pydantic schema:
 }
 Returns {"predicted_salary": <float>}.
 
-Usage:
+**Usage**:
 uvicorn project_pwc.api.app:app --host 0.0.0.0 --port 8000
 
 Send test requests via Postman or curl:
@@ -182,28 +189,29 @@ A simple form to input:
 Years of Experience, Gender, Education Level, Experience Level Ordinal.
 Runs model.predict(...) and displays the estimated salary.
 
-Usage:
+**Usage**:
 streamlit run project_pwc/ui/app.py
 Opens at http://localhost:8501.
 
 ## 7. Testing with Pytest <a id="testing-pytest"></a>
+
 The tests/ folder includes several scripts to ensure the pipeline works as expected:
 
 test_dataset.py
-
 test_load_dataframes: Checks load_dataframes() returns non-empty DataFrames.
 test_merge_data: Ensures merged DataFrame has Salary, Description.
 test_fill_missing_values: Validates no more nulls in Salary and that Age/Experience are int.
-test_features.py
 
+test_features.py
 test_features_no_log: Calls features.main(..., use_log_salary=False), verifying Salary_log is NOT created.
 test_features_with_log: Calls the same with True, checks Salary_log is indeed created.
+
 test_modeling.py
-
 test_train_and_save_model: Runs train_and_save_best_model on a sample CSV, confirms it outputs a .joblib file and that it is a RandomForestRegressor.
-test_api.py
 
+test_api.py
 test_predict_salary: Uses FastAPI’s TestClient to POST a sample JSON to /predict and expects status_code == 200 and a predicted_salary field.
+
 How to run:
 pipenv shell
 pytest tests/
@@ -211,26 +219,20 @@ pytest tests/
 All tests should pass, possibly showing minor warnings (Pandas “SettingWithCopyWarning” or scikit-learn “X does not have valid feature names”).
 
 ## 8. Overall Conclusions <a id="overall-conclusions"></a>
-Model Performance:
 
+Model Performance:
 A well-tuned RandomForest yields ~$10k MAE (5% error if Salary can reach 200k).
 LinearRegression is simpler but has a higher MAE ($10.8k). Baseline is far worse ($40k).
 Using Salary_log or direct Salary produce similar results when evaluated in real currency.
-Validation:
 
+Validation:
 RepeatedKFold and NestedCV confirm that ~$10k–$11k error is stable across splits.
 Ensemble (Voting) slightly improves or matches the best RandomForest (MAE ~$10.4k).
-API and UI:
 
+API and UI:
 The final pipeline is exposed via a FastAPI endpoint for programmatic requests.
 A Streamlit interface allows direct, user-friendly input of features and immediate predictions.
-Testing:
 
+Testing:
 The Pytest suite ensures every phase (data merging, feature engineering, modeling, and API) is tested and functioning.
 All tests pass, indicating a consistent pipeline.
-Future Work:
-
-Handling outliers more explicitly or advanced interpretability (e.g., SHAP, PDP).
-Possibly exploring Docker for containerized deployment.
-Integrating more hyperparam search or sophisticated ensembles if further error reduction is needed.
-Overall, the project demonstrates a robust pipeline that predicts salary with an MAE of ~$10k and R² near 0.90. The validations confirm stability, and the tested API/UI provide easy access.

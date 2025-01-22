@@ -94,11 +94,11 @@ This repository contains the **end-to-end pipeline** for **predicting salaries**
 ```bash
 python -m project_pwc.dataset
 ```
-Output: data/interim/dataset_cleaned.csv
+This command will automatically read salary.csv, people.csv, and descriptions.csv from data/raw/, clean them, and write out dataset_cleaned.csv to data/interim/dataset_cleaned.csv
 
 In Notebooks:
-1.0-eda-initial-exploration.ipynb does a preliminary check on these CSVs (shape, columns).
-2.0-eda-advanced-exploration.ipynb goes deeper (correlation, outliers, distributions).
+* 1.0-eda-initial-exploration.ipynb does a preliminary check on these CSVs (shape, columns).
+* 2.0-eda-advanced-exploration.ipynb goes deeper (correlation, outliers, distributions).
 
 ## 3. Advanced EDA <a id="advanced-eda"></a>
 
@@ -119,6 +119,13 @@ Gender indicates differences in salary distribution.
 Scatter (Age vs. Experience vs. Salary) → outliers, strong collinearity, possible log transformation for Salary in linear models.
 
 ## 4. Model Training <a id="model-training"></a>
+
+features.py
+**After cleaning, you can run feature engineering**:
+```bash
+python -m project_pwc.features --input-file dataset_cleaned.csv --output-file dataset_features.csv
+```
+This will transform dataset_cleaned.csv into a fully processed dataset (dataset_features.csv) including optional Salary_log, one-hot encoding, and ordinal mappings.
 
 3.0-model-training:
 
@@ -181,10 +188,16 @@ Returns {"predicted_salary": <float>}.
 uvicorn project_pwc.api.app:app --host 0.0.0.0 --port 8000
 ```
 
-Send test requests via Postman or curl:
-curl -X POST http://127.0.0.1:8000/predict \
-  -H "Content-Type: application/json" \
-  -d '{"years_experience":5, "gender_female":1, "gender_male":0, ...}'
+**Send test requests via Postman or curl**:
+```bash
+curl -X POST -H "Content-Type: application/json" \
+    -d '{"years_experience":5,
+         "gender_male":1,
+         "gender_female":0,
+         "education_level_ordinal":2,
+         "experience_level_ordinal":1}' \
+    http://localhost:8000/predict
+```
 
 UI: project_pwc/ui/app.py (Streamlit)
 

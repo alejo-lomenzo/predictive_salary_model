@@ -121,6 +121,7 @@ Scatter (Age vs. Experience vs. Salary) → outliers, strong collinearity, possi
 ## 4. Model Training <a id="model-training"></a>
 
 features.py
+
 **After cleaning, you can run feature engineering**:
 ```bash
 python -m project_pwc.features --input-file dataset_cleaned.csv --output-file dataset_features.csv
